@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>HIT</title>
+	<h1 style="margin-left:50px; margin-bottom:-50px">You have completed {{ hit_number }} HITs</h1>
+	<link rel="stylesheet" href="static/mystyle.css" type="text/css">
+	<link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+
+	<script>
+
+
+	function annotate() {
+
+		var l = []; 
+		var l_label = []; 
+		var l_border = []; 
+		var grid_size = 4; 
+		var max_num_clusters = 4; 
+
+		for (i = 1; i < grid_size + 1; i++) {
+			for (j = 1; j < grid_size + 1; j++) {
+				img_name = "image_" + String(i) + String(j); 
+				l.push(document.getElementById(img_name));
+				l_label.push(document.getElementById(img_name + "_label"));
+				l_border.push(document.getElementById(img_name + "_border"));
+
+			}
+		}
+
+		var val; 
+		var colors = ["DodgerBlue", "Aquamarine", "Chocolate", "Crimson", "Chartreuse", 
+		"FloralWhite", "Gold", "LightPink", "DarkOrange"];
+
+		for(val = 0; val < max_num_clusters; val++) {
+			for(idx = 0; idx < grid_size*grid_size; idx++) {
+				if (l[idx].value == String(val)) {
+					l_label[idx].textContent = String(val); 
+					l_label[idx].style.color = colors[val]; 
+					l_border[idx].style.borderColor = colors[val]; 
+				}
+			}
+		}
+	}	
+	</script>
+
+</head>
+
+<body onload="annotate()"> 
+	<div class="container">
+		<div id="entrylist">
+		<h5 style="white-space:nowrap;">Give a group label(up to label 4) to each of the images. <br> It is ok to leave some groups empty.</h5>
+		<form class="get-clusters" role="form" method="post" action="" onchange="annotate();">
+			{{ form.csrf_token }}
+			<p style="white-space:nowrap;">
+				{{ form.image_11(placeholder="image_11") }}
+				{{ form.image_12(placeholder="image_12") }}
+				{{ form.image_13(placeholder="image_13") }}
+				{{ form.image_14(placeholder="image_14") }}
+
+			</p>
+			<p style="white-space:nowrap;">
+				{{ form.image_21(placeholder="image_21") }}
+				{{ form.image_22(placeholder="image_22") }}
+				{{ form.image_23(placeholder="image_23") }}
+				{{ form.image_24(placeholder="image_24") }}
+
+			</p>
+			<p style="white-space:nowrap;">
+				{{ form.image_31(placeholder="image_31") }}
+				{{ form.image_32(placeholder="image_32") }}
+				{{ form.image_33(placeholder="image_33") }}
+				{{ form.image_34(placeholder="image_34") }}
+			</p>
+			<p style="white-space:nowrap;">
+				{{ form.image_41(placeholder="image_41") }}
+				{{ form.image_42(placeholder="image_42") }}
+				{{ form.image_43(placeholder="image_43") }}
+				{{ form.image_44(placeholder="image_44") }}
+			</p>
+			<button class="btn btn-sm btn-success" type="submit">Submit</button>
+		</form>
+		</div>
+
+		<div id="imagelist">
+		{ counter = 0 }
+		{% for image_name in image_names %}
+			{ counter = counter + 1 }
+			<a>
+			<img src="{{ url_for('static', filename=image_name) }}">
+		{% endfor %}
+		</div>
+		<div id="image_labels">
+			<div id="image_11_label"></div>
+			<div id="image_12_label"></div>
+			<div id="image_13_label"></div>
+			<div id="image_14_label"></div>
+			<div id="image_21_label"></div>
+			<div id="image_22_label"></div>
+			<div id="image_23_label"></div>
+			<div id="image_24_label"></div>
+			<div id="image_31_label"></div>
+			<div id="image_32_label"></div>
+			<div id="image_33_label"></div>
+			<div id="image_34_label"></div>
+			<div id="image_41_label"></div>
+			<div id="image_42_label"></div>
+			<div id="image_43_label"></div>
+			<div id="image_44_label"></div>
+		</div>
+
+		<div id="image_borders">
+			<div id="image_11_border"></div>
+			<div id="image_12_border"></div>
+			<div id="image_13_border"></div>
+			<div id="image_14_border"></div>
+			<div id="image_21_border"></div>
+			<div id="image_22_border"></div>
+			<div id="image_23_border"></div>
+			<div id="image_24_border"></div>
+			<div id="image_31_border"></div>
+			<div id="image_32_border"></div>
+			<div id="image_33_border"></div>
+			<div id="image_34_border"></div>
+			<div id="image_41_border"></div>
+			<div id="image_42_border"></div>
+			<div id="image_43_border"></div>
+			<div id="image_44_border"></div>
+		</div>
+
+		<!-- errors -->
+		{% if error %}
+			{{ error }}
+		{% endif %}
+
+		<!-- messages -->
+		{% for message in get_flashed_messages() %}
+			{{ message }}
+		{% endfor %}
+
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

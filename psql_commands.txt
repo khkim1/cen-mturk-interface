@@ -1,0 +1,7 @@
+
+
+# Copy database into text file without annotations 
+\copy (select image_id, cluster_id, author_id from posts) to '/Users/KunhoKim/Desktop/posts.txt'
+
+# Copy database with annotations 
+\copy (select image_id, cluster_id, group_descriptions, author_id from posts) to '/Users/KunhoKim/Desktop/posts.csv’ CSV;

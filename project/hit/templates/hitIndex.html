@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>HIT</title>
+  <link rel="stylesheet" href="static/hit.css" type="text/css">
+  <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="static/hit.js"></script>
+</head>
+
+<body onload="setup({{image_names}})">
+
+  <!-- This section includes the description and instructions of the hit page -->
+  <div class="info-text">
+    <h2>You have completed <font color='blue'>{{ hit_number }}</font> assignments</h2>
+    <p> <h4> <b> INSTRUCTIONS </b> </h4>
+    <ol>
+      <li> View the page in full-screen width to avoid page loading errors. </li>
+      <li> Click a group color, and click on an image to label the image as the selected group. </li>
+      <li> Selecting an image after clicking on a different color group will override the existing color. </li>
+      <li> Click "Add Group" to add more clusters. </li>
+      <li> Click "Sort" to view your clusterings in a sorted view. </li>
+      <!--
+      <li> These are zoomed in image patches of diseased retina. There are several "abnormal features" which indicate that the retina is diseased. We want you to discover 1 such feature per grid. <b>For a grid of images shown to you on a single page, assign "Group 1" to the images which share 1 common attribute/feature. (For example: "Yellow dots") Do not cluster on photo qualities such as the overall brightness or the color. Remember you are looking for "disease features". </b> </li>
+      -->
+      <li style="color:blue"> These are headshots of birds from various species. Use 1 attribute to cluster the image grid. </li>
+      <!--
+      chosen from: <br />
+      (1). Number of colors shown <br />
+      (2). Smooth fur vs Rough fur</li>
+      -->
+      <!-- <li> An attribute is one "feature" of an image. (ex. Expression, Skin Color, and etc) </li> -->
+      <li> Write the attribute that you used in the "Describe the group" box. (e.g. Group 1: 1 color, Group 2: 2 colors) </li>
+      <!--
+      <li> <b>Do NOT use more than one attribute to cluster one grid.</b> For example, don't create both group such as "smiling", "white" in one HIT since it mixes the expression and skin color attribute. </li>
+      <li> <b>Use each of the 3 attributes at least once among the 10 HITs. (BUT DON'T USE ANY OTHER ATTRIBUTE) </b> </li>
+      <li> Write a short description of each group determined by clustering on your chosen attribute. (i.e. For the attribute "expression", groups may be "smiling", "content", "unhappy", and etc) </li>
+      -->
+      <!--
+      <li> <b>Don't cluster overly specifically.</b> (i.e. Under the attribute "expression", don't distinguish between smiling happily and smiling evily) </li>
+      -->
+      <li> Submit when you are done. </li>
+    </ol>
+  </p>
+  <p> <h4> <b> HIT REJECTION CRITERIA </b> </h4>
+  <ul>
+    <li style='color:red'> DO NOT CLUSTER ONE IMAGE GRID USING DIFFERENT ATTRIBUTES. (Don't do this: Group 1: Rough Fur, Group 2: 4 colored birds)</li>
+    <li style='color:red'> Do not leave any images unassigned of a group. </li>
+    <li style="color:red"> Do not omit any group descriptions. </li>
+    <li style="color:red"> Do not stick with only one image attribute throughout all 10 assignments. </li>
+  </ul>
+  </div>
+
+  <!-- This section includes the main controls: submit, add a group, and sort  -->
+  <div class="toolbar">
+    <button class="function-button sort-button" style="background-color: #9FA9ED; border-radius: 3px;" onclick="sort()"> <font size=3> Sort </font> </button>
+    <button id="addButton" class="function-button add-button" style="background-color: #9FD7ED; border-radius: 3px;" onclick="addNewColor()"> <font size=3> Add group </font> </button>
+    <button id= "submitButton" type="submit" class="function-button submit-button" style="background-color: #9FEDA0; border-radius: 3px;" onclick="this.disabled=true; submit({{hit_number}})"> <font size=3> Submit </font> </button>
+  </div>
+
+  <!-- This section includes the images to categorize. everything is populated in the unsorted-images-list and later added on to the respective divs -->
+  <div id="image-grid" class="island">
+    <div class="image-list unsorted-images-list" id="sortedList0">
+      {% for image_name in image_names %}
+        <img src="{{ url_for('static', filename=image_name) }}" id="{{image_name}}" style="border:5px solid transparent; border-radius: 10px" height="130px" width="130px" onclick="onImageClick(this)">
+      {% endfor %}
+    </div>
+    <div class="image-list sorted-images-list" id="sortedList1"></div>
+    <div class="image-list sorted-images-list" id="sortedList2"></div>
+    <div class="image-list sorted-images-list" id="sortedList3"></div>
+    <div class="image-list sorted-images-list" id="sortedList4"></div>
+    <div class="image-list sorted-images-list" id="sortedList5"></div>
+    <div class="image-list sorted-images-list" id="sortedList6"></div>
+    <div class="image-list sorted-images-list" id="sortedList7"></div>
+    <div class="image-list sorted-images-list" id="sortedList8"></div>
+    <div class="image-list sorted-images-list" id="sortedList9"></div>
+    <div class="image-list sorted-images-list" id="sortedList10"></div>
+    </div>
+  </div>
+
+  <!-- This section includes the controls for the different color groups. change this color in the inline css if you want to change the color scheme, and also modify the colors list in hit.js -->
+  <div id="color-picker" class="island">
+    <!--
+    <input id="attribute" type="text" placeholder="Describe your attribute">
+    -->
+    <div id="baseColorRow" class="color-row">
+      <button class="color-button button" onclick="selectColor(this)" style="background-color:#fc8686; border: 5px solid transparent; border-radius: 5px;"> Group 1 </button>
+      <input id="description1" type="text" class="description" name="description" placeholder="Describe the group">
+    </div>
+  </div>
+</body>
+</html>

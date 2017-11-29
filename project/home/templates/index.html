@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Welcome {{ username }}!</h1>
+<br>
+<h4>Click <a href='/hit'>here</a> to begin a new HIT.</h4>
+<br>
+<h4>Click <a href='/logout'>here</a> to logout.</h4>
+<br>
+
+<!-- All Posts -->
+<h3>You have completed {{ num_hits }} tasks!</h3>
+
+<br>
+<table style="width:50%">
+	<tr>
+		<th>Survey Code (enter the following code into the survey code section to claim reward)</th>
+	</tr>
+
+{% for post in posts %}
+	<tr>
+		<td>{{ post.secret_key }}</td>
+	</tr>
+{% endfor %}
+</table>
+<br>
+
+{% endblock %} 
